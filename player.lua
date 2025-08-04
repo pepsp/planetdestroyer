@@ -144,8 +144,8 @@ function Player:acelerar()
 
 
 function Player:colisionMapa()
-    local maxWidth = 1024
-    local maxHeight = 512
+     maxWidth = 1024
+     maxHeight = 512
 
     if self.x < 0 then
         sfx(sfxChoque)

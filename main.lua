@@ -2,8 +2,11 @@
 function _init()
     cls()
     player = {}
+    enemy = {}
+    setmetatable(enemy, {__index = Enemy})
     setmetatable(player, {__index = Player})
     player:init()
+    Enemy:init()
     music(0, 0)
 
     sfxDisparo = 20
@@ -15,8 +18,14 @@ function _init()
 
 end
 
+
+
+
+
 function _update()
     player:update()
+    Enemy:update()
+
     dCam()
 
      for b in all(Bullets) do
@@ -35,12 +44,18 @@ function _draw()
 
     
     player:draw()
+    Enemy:draw()
+
      for b in all(Bullets) do
         b:draw()
     end
 
    --print("velocidad X: " .. player.velocidadX, cx, cy, 7)
    --print("velocidad Y: " .. player.velocidadY,  cx, cy + 10, 7)
+
+
+
+
 end
 
 
