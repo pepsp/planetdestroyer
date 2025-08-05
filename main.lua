@@ -1,6 +1,9 @@
 
 function _init()
+    maxWidth = 1024
+    maxHeight = 512
     cls()
+    srand(time)
     player = {}
     enemy = {}
     setmetatable(enemy, {__index = Enemy})
