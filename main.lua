@@ -14,6 +14,7 @@ function _init()
 
     sfxDisparo = 20
     sfxChoque =  21
+    sfxHit = 22
 
     cx = 0
     cy = 0

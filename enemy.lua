@@ -150,6 +150,7 @@ function Enemy:checkBulletCollision()
     for e in all(enemies) do
         for b in all(Bullets) do
             if b.live and checkCollision(b, e) then
+                sfx(sfxHit)
                 e.health -= 1
                 b.live = false -- marca la bala para eliminarla
                 if e.health <= 0 then
