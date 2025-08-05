@@ -5,10 +5,10 @@ Enemy.__index = Enemy
 
 planets = {
     small = {
-        {name = "earth", sprite = 80 },
-        {name = "mars", sprite = 64 },
-        {name = "brown", sprite = 96},
-        {name = "sm sun", sprite = 112}
+        {name = "earth", topLeft = 80 },
+        {name = "mars", topLeft = 64 },
+        {name = "brown", topLeft = 96},
+        {name = "sm sun", topLeft = 112}
     },
     medium = {
         {name = "md jupiter", topLeft = 65},
@@ -58,6 +58,12 @@ function Enemy:new()
 
     e.planet = getRandomEnemy(planets)
 
+    if e.planet.size == "medium" then
+        e.health = 3
+    else
+        e.health = 1
+    end
+
     add(enemies, e)
     return e
 
@@ -67,6 +73,7 @@ end
 
 function Enemy.update()
     Enemy:movement()
+    Enemy:checkBulletCollision()
 end
 
 
@@ -124,5 +131,31 @@ end
 function Enemy:respawnEnemies()
      while #enemies < maxEnemies do
         self:new()
+    end
+end
+
+
+function checkCollision(b, e)
+    local ex = e.x
+    local ey = e.y
+    local bw = (e.planet.size == "medium") and 16 or 8
+    local bh = bw
+
+    -- Comprobación de bounding box entre bala y enemigo
+    return b.x > ex and b.x < ex + bw and b.y > ey and b.y < ey + bh
+end
+
+
+function Enemy:checkBulletCollision()
+    for e in all(enemies) do
+        for b in all(Bullets) do
+            if b.live and checkCollision(b, e) then
+                e.health -= 1
+                b.live = false -- marca la bala para eliminarla
+                if e.health <= 0 then
+                    e.alive = false
+                end
+            end
+        end
     end
 end
