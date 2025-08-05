@@ -5,16 +5,16 @@ Enemy.__index = Enemy
 
 planets = {
     small = {
-        {name = "earth", topLeft = 80 },
-        {name = "mars", topLeft = 64 },
-        {name = "brown", topLeft = 96},
-        {name = "sm sun", topLeft = 112}
+        {name = "earth", topLeft = 80, size = 1 },
+        {name = "mars", topLeft = 64, size = 1 },
+        {name = "brown", topLeft = 96, size = 1},
+        {name = "sm sun", topLeft = 112, size = 1}
     },
     medium = {
-        {name = "md jupiter", topLeft = 65},
-        {name = "md asteroid", topLeft = 67},
-        {name = "md ice-earth", topLeft = 99 },
-        {name = "md gray", topLeft = 97 }
+        {name = "md jupiter", topLeft = 65, size = 2},
+        {name = "md asteroid", topLeft = 67, size = 2},
+        {name = "md ice-earth", topLeft = 99, size = 2 },
+        {name = "md gray", topLeft = 97, size = 2, size = 2}
     }
 
 }
@@ -155,6 +155,7 @@ function Enemy:checkBulletCollision()
                 b.live = false -- marca la bala para eliminarla
                 if e.health <= 0 then
                     e.alive = false
+                    Explosion:new(e)
                 end
             end
         end

@@ -8,6 +8,8 @@ function _init()
     enemy = {}
     setmetatable(enemy, {__index = Enemy})
     setmetatable(player, {__index = Player})
+
+
     player:init()
     Enemy:init()
     music(0, 0)
@@ -15,6 +17,12 @@ function _init()
     sfxDisparo = 20
     sfxChoque =  21
     sfxHit = 22
+
+    -- animation frames index
+    smallExplosionFirstFrame = 17
+    smallExplosionLastFrame = 20
+    mediumExplosionFirstFrame = 32
+    mediumExplosionLastFrame = 38
 
     cx = 0
     cy = 0
@@ -29,6 +37,8 @@ end
 function _update()
     player:update()
     Enemy:update()
+    Explosion:update()
+   
 
     dCam()
 
@@ -49,6 +59,7 @@ function _draw()
     
     player:draw()
     Enemy:draw()
+    Explosion:draw()
 
      for b in all(Bullets) do
         b:draw()
@@ -68,3 +79,5 @@ function dCam()
     cy = player.y + 8 - 63
     camera(cx, cy)
 end
+
+
