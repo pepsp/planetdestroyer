@@ -181,3 +181,7 @@ function Player:cooldownReset()
 
     end
 end
+
+
+function Player:colisionPlaneta()
+end

@@ -1,7 +1,84 @@
 
---  fix later globalHighscore = highscore
+
 function _init()
-    maxWidth = 1024
+    updateFn = updateMenu
+    drawFn = drawMenu
+end
+
+function _update()
+    updateFn()
+end
+
+function _draw()
+    drawFn()
+end
+
+
+
+-- MENU STATE 
+function updateMenu()
+    if btn(4) then
+    
+        updateFn = updateGame
+        drawFn = drawGame
+        gameInit()
+        
+    end
+end
+
+function drawMenu()
+cls()
+print("PRESS Z TO START", 30, 60)
+end
+
+-- MENU STATE ^
+
+
+
+-- GAME STATE
+
+function updateGame()
+    player:update()
+    Enemy:update()
+    Explosion:update()
+   keepHighscore()
+
+    dCam()
+
+     for b in all(Bullets) do
+        b:update()
+        if not b.live then
+            del(Bullets, b)
+        end
+
+    end
+end
+
+
+function drawGame()
+    cls()
+    map()
+
+
+    
+    player:draw()
+    Enemy:draw()
+    Explosion:draw()
+    drawStars()
+
+     for b in all(Bullets) do
+        b:draw()
+    end
+
+   print("SCORE: " .. score, cx + 50, cy, 7)
+   displayHealth()
+
+
+
+end
+
+function gameInit()
+     maxWidth = 1024
     maxHeight = 512
     cls()
     srand(time)
@@ -36,55 +113,12 @@ function _init()
     mediumExplosionFirstFrame = 32
     mediumExplosionLastFrame = 38
 
-    cx = 0
-    cy = 0
-
+   dCam()
 
 end
 
 
-
-
-
-function _update()
-    player:update()
-    Enemy:update()
-    Explosion:update()
-   keepHighscore()
-
-    dCam()
-
-     for b in all(Bullets) do
-        b:update()
-        if not b.live then
-            del(Bullets, b)
-        end
-
-    end
-end
-
-function _draw()
-    cls()
-    map()
-
-
-    
-    player:draw()
-    Enemy:draw()
-    Explosion:draw()
-    drawStars()
-
-     for b in all(Bullets) do
-        b:draw()
-    end
-
-   print("SCORE: " .. score, cx + 50, cy, 7)
-   displayHealth()
-
-
-
-
-end
+-- GAME STATE ^
 
 
 function dCam()
@@ -122,3 +156,6 @@ function displayHealth()
         spr(heartSprite, cx + 2 + i * 9, cy + 2)
     end
 end
+
+
+
