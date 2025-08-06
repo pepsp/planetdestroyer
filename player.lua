@@ -21,6 +21,7 @@ function Player:init()
     --disparo
     self.cooldown = 0
     self.maxCooldown = 10
+    
 end
 
 function Player:update()

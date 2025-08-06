@@ -17,7 +17,7 @@ function Bullet:new(x, y, angulo)
         dy = dy * velocidadBala,
         radio = 1,
         live = true,
-        liveTimer = 120
+        liveTimer = 13
     }
     setmetatable(o, Bullet)
     return o

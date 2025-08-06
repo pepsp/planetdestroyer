@@ -14,7 +14,7 @@ planets = {
         {name = "md jupiter", topLeft = 65, size = 2},
         {name = "md asteroid", topLeft = 67, size = 2},
         {name = "md ice-earth", topLeft = 99, size = 2 },
-        {name = "md gray", topLeft = 97, size = 2, size = 2}
+        {name = "md gray", topLeft = 97, size = 2}
     }
 
 }
@@ -149,15 +149,35 @@ end
 function Enemy:checkBulletCollision()
     for e in all(enemies) do
         for b in all(Bullets) do
+
             if b.live and checkCollision(b, e) then
-                sfx(sfxHit)
-                e.health -= 1
+
+                self:isHit(e)
                 b.live = false -- marca la bala para eliminarla
+
                 if e.health <= 0 then
-                    e.alive = false
-                    Explosion:new(e)
+                    self:isDie(e)
+                    if e.size == "small" then
+                        score += 100
+                    else
+                        score += 300
+                    end
+
                 end
             end
         end
     end
 end
+
+
+function Enemy:isHit(e)
+     sfx(sfxHit)
+    e.health -= 1
+end
+
+function Enemy:isDie(e)
+    sfx(sfxExplosion)
+    e.alive = false
+    Explosion:new(e)
+end
+

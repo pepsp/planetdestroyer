@@ -1,4 +1,5 @@
 
+--  fix later globalHighscore = highscore
 function _init()
     maxWidth = 1024
     maxHeight = 512
@@ -6,6 +7,13 @@ function _init()
     srand(time)
     player = {}
     enemy = {}
+    stars = {}
+    maxStars = 200
+
+    score = 0
+    highscore = 0
+
+    initStars()
     setmetatable(enemy, {__index = Enemy})
     setmetatable(player, {__index = Player})
 
@@ -17,6 +25,7 @@ function _init()
     sfxDisparo = 20
     sfxChoque =  21
     sfxHit = 22
+    sfxExplosion = 24
 
     -- animation frames index
     smallExplosionFirstFrame = 17
@@ -38,7 +47,7 @@ function _update()
     player:update()
     Enemy:update()
     Explosion:update()
-   
+   keepHighscore()
 
     dCam()
 
@@ -60,13 +69,14 @@ function _draw()
     player:draw()
     Enemy:draw()
     Explosion:draw()
+    drawStars()
 
      for b in all(Bullets) do
         b:draw()
     end
 
-   --print("velocidad X: " .. player.velocidadX, cx, cy, 7)
-   --print("velocidad Y: " .. player.velocidadY,  cx, cy + 10, 7)
+   print("SCORE: " .. score, cx, cy, 7)
+   print("HIGHSCORE: " .. highscore,  cx , cy + 10 , 7)
 
 
 
@@ -81,3 +91,24 @@ function dCam()
 end
 
 
+function initStars()
+    for i=1, maxStars do
+        add(stars, {
+            x = flr(rnd(maxWidth)),
+            y = flr(rnd(maxHeight)),
+            c = 7  
+        })
+    end
+end
+
+function drawStars()
+    for star in all(stars) do
+        pset(star.x, star.y, star.c)
+    end
+end
+
+function keepHighscore ()
+    if score > highscore then
+        highscore = score
+    end
+end
