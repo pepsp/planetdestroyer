@@ -6,6 +6,9 @@ function _init()
     cls()
     srand(time)
     player = {}
+    maxHealth = 2
+    health = maxHealth
+    heartSprite = 24
     enemy = {}
     stars = {}
     maxStars = 200
@@ -75,8 +78,8 @@ function _draw()
         b:draw()
     end
 
-   print("SCORE: " .. score, cx, cy, 7)
-   print("HIGHSCORE: " .. highscore,  cx , cy + 10 , 7)
+   print("SCORE: " .. score, cx + 50, cy, 7)
+   displayHealth()
 
 
 
@@ -110,5 +113,12 @@ end
 function keepHighscore ()
     if score > highscore then
         highscore = score
+    end
+end
+
+
+function displayHealth()
+    for i = 0, health do
+        spr(heartSprite, cx + 2 + i * 9, cy + 2)
     end
 end
