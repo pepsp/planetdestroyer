@@ -17,7 +17,7 @@ end
 
 -- MENU STATE 
 function updateMenu()
-    if btn(4) then
+    if btn(5) then
     
         updateFn = updateGame
         drawFn = drawGame
@@ -27,8 +27,16 @@ function updateMenu()
 end
 
 function drawMenu()
-cls()
-print("PRESS Z TO START", 30, 60)
+
+      cls()
+      spr(1, 60, 25)
+    print("planet destroyer", 30, 50)
+    
+    -- Parpadea cada 0.5 segundos
+    if flr(time() * 2) % 2 == 0 then
+        print("PRESS x TO START", 30, 100)
+    end
+
 end
 
 -- MENU STATE ^
@@ -78,7 +86,8 @@ function drawGame()
 end
 
 function gameInit()
-     maxWidth = 1024
+    music(-1)
+    maxWidth = 1024
     maxHeight = 512
     cls()
     srand(time)
@@ -88,6 +97,7 @@ function gameInit()
     heartSprite = 24
     enemy = {}
     stars = {}
+    
     maxStars = 200
 
     score = 0
@@ -124,13 +134,36 @@ end
 -- GAMEOVER STATE
 
     function gameoverDraw()
-        print("YOU LOST", player.x, player.y + 20)
+        cls()
+        print("YOU LOST", player.x, player.y - 20)
+        print("you scored: " .. score, player.x - 20, player.y + 20)
+        
+        if flr(time() * 2) % 2 == 0 then
+        print("PRESS x TO RESTART", player.x - 20, player.y + 40)
+        end
+
+        print()
         displayHealth()
+        Explosion:draw()
     end
 
 
 
     function gameoverUpdate()
+        Explosion:update()
+
+        if btn(5) then
+            updateFn = updateGame
+            drawFn = drawGame
+            gameInit()
+        end
+    end
+
+    function gameoverInit()
+
+        gameoverSfx = 10
+        music(-1)
+        music(gameoverSfx)
 
     end
 
@@ -173,13 +206,10 @@ end
 
 
 function displayHealth()
-     if health < 0 then
-        return
-    end
 
-    for i = 0, health do
-        spr(heartSprite, cx + 2 + i * 9, cy + 2)
-    end
+        for i = 1, health do
+        spr(heartSprite, cx + 2 + (i - 1) * 9, cy + 2)
+        end
 end
 
 

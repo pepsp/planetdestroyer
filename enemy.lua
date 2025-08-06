@@ -1,6 +1,6 @@
 Enemy = {}
 enemies = {}
-maxEnemies = 15
+maxEnemies = 30
 Enemy.__index = Enemy
 
 planets = {
@@ -33,7 +33,8 @@ end
 
 
 function Enemy:init()
-
+    
+    enemies = {}
     for i=1,maxEnemies do
         Enemy:new()
 end
@@ -87,6 +88,7 @@ function Enemy:draw()
             spr(e.planet.topLeft, e.x, e.y)
         end 
 end
+    -- debugEnemyCount()
 end
 
 
@@ -186,7 +188,9 @@ function Enemy:checkPlayerCollision()
     for e in all(enemies) do
         if checkPlayerEnemyCollision(player, e) then
             if not player.invulnerable then
-                sfx(sfxChoque)
+                if health > 0 then
+                    sfx(sfxChoque)
+                end
                 health -= 1
                 player.invulnerable = true
                 player.invulnTimer = 60 -- 1 segundo de invulnerabilidad (30 frames = medio segundo)
@@ -196,9 +200,13 @@ function Enemy:checkPlayerCollision()
                 player.velocidadY *=  -0.5
 
                 if health < 0 then
+                Explosion:new(player)
                 health -= 1
                 drawFn = gameoverDraw
                 updateFn = gameoverUpdate
+                sfx(sfxExplosion)
+                gameoverInit()
+                
                 end
             end
         end

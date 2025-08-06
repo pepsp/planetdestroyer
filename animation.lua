@@ -21,12 +21,13 @@ function Explosion:draw()
 end
 
 function Explosion:new(e)
-    if e.planet.size == "small" then
+
+    if e.planet and e.planet.size== "medium"  then
         local explosion = {
-            size = "small",
+            size = "medium",
             x = e.x,
             y = e.y,
-            frame = smallExplosionFirstFrame,
+            frame = mediumExplosionFirstFrame,
             timer = 0,
             done = false
 
@@ -34,10 +35,10 @@ function Explosion:new(e)
         add (explosions, explosion)
     else
         local explosion = {
-            size = "medium",
+            size = "small",
             x = e.x,
             y = e.y,
-            frame = mediumExplosionFirstFrame,
+            frame = smallExplosionFirstFrame,
             timer = 0,
             done = false
 

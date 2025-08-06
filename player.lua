@@ -35,8 +35,9 @@ function Player:update()
 end
 
 function Player:draw()
-    self:rotarSprite(self.spriteNum, self.x, self.y, self.anguloRotacion, 1, 1)
-    self:drawInvulnerabilidad()
+     if not self.invulnerable or (flr(time() * 10) % 2 == 0) then
+        self:rotarSprite(self.spriteNum, self.x, self.y, self.anguloRotacion, 1, 1)
+    end
 end
 
 function Player:movement()
@@ -195,12 +196,5 @@ function Player:handleInvulnerabilidad()
     if self.invulnTimer <= 0 then
         self.invulnerable = false
     end
-    end
-end
-
-
-function Player:drawInvulnerabilidad()
-    if not self.invulnerable or (flr(time() * 10) % 2 == 0) then
-        self:rotarSprite(self.spriteNum, self.x, self.y, self.anguloRotacion, 1, 1)
     end
 end
