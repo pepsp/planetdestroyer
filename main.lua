@@ -121,6 +121,27 @@ end
 -- GAME STATE ^
 
 
+-- GAMEOVER STATE
+
+    function gameoverDraw()
+        print("YOU LOST", player.x, player.y + 20)
+        displayHealth()
+    end
+
+
+
+    function gameoverUpdate()
+
+    end
+
+
+
+-- GAMEOVER STATE^
+
+
+
+
+
 function dCam()
     cx = player.x + 8 - 63
     cy = player.y + 8 - 63
@@ -152,6 +173,10 @@ end
 
 
 function displayHealth()
+     if health < 0 then
+        return
+    end
+
     for i = 0, health do
         spr(heartSprite, cx + 2 + i * 9, cy + 2)
     end

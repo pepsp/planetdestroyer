@@ -9,6 +9,10 @@ function Player:init()
     self.spriteNum = 1
     self.velocRotacion = 15
     self.tileSize = 8
+    self.invulnerable = false
+    
+    self.invulnTimer = 0
+    self.size = "small"
 
     --fisica
     self.velocidadX = 0
@@ -27,10 +31,12 @@ end
 function Player:update()
     self:movement()
     self:colisionMapa()
+    self:handleInvulnerabilidad()
 end
 
 function Player:draw()
     self:rotarSprite(self.spriteNum, self.x, self.y, self.anguloRotacion, 1, 1)
+    self:drawInvulnerabilidad()
 end
 
 function Player:movement()
@@ -183,5 +189,18 @@ function Player:cooldownReset()
 end
 
 
-function Player:colisionPlaneta()
+function Player:handleInvulnerabilidad()
+    if self.invulnerable then
+    self.invulnTimer -= 1
+    if self.invulnTimer <= 0 then
+        self.invulnerable = false
+    end
+    end
+end
+
+
+function Player:drawInvulnerabilidad()
+    if not self.invulnerable or (flr(time() * 10) % 2 == 0) then
+        self:rotarSprite(self.spriteNum, self.x, self.y, self.anguloRotacion, 1, 1)
+    end
 end

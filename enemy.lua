@@ -74,6 +74,7 @@ end
 function Enemy.update()
     Enemy:movement()
     Enemy:checkBulletCollision()
+    Enemy:checkPlayerCollision()
 end
 
 
@@ -181,3 +182,47 @@ function Enemy:isDie(e)
     Explosion:new(e)
 end
 
+function Enemy:checkPlayerCollision()
+    for e in all(enemies) do
+        if checkPlayerEnemyCollision(player, e) then
+            if not player.invulnerable then
+                sfx(sfxChoque)
+                health -= 1
+                player.invulnerable = true
+                player.invulnTimer = 60 -- 1 segundo de invulnerabilidad (30 frames = medio segundo)
+                
+                -- rebota un poco al jugador
+                player.velocidadX *=  -0.5
+                player.velocidadY *=  -0.5
+
+                if health < 0 then
+                health -= 1
+                drawFn = gameoverDraw
+                updateFn = gameoverUpdate
+                end
+            end
+        end
+    end
+end
+
+
+function checkPlayerEnemyCollision(p, e)
+    local pw = 6
+    local ph = 6
+    
+    -- Tamaños del enemigo basados en el tamaño del planeta
+    local ew, eh
+    if e.planet and e.planet.size == "medium" then
+        ew = 12
+        eh = 12
+    else
+        ew = 6
+        eh = 6
+    end
+    
+    -- Verificar colisión AABB (Axis-Aligned Bounding Box)
+    return p.x < e.x + ew and
+           p.x + pw > e.x and
+           p.y < e.y + eh and
+           p.y + ph > e.y
+end
