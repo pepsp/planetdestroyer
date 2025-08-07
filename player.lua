@@ -53,7 +53,7 @@ function Player:movement()
     end
 
     --acelerar
-    if btn(2) then
+    if btn(2) or btn(5) then
     self:acelerar()
     
     else

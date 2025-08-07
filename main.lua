@@ -1,4 +1,5 @@
 
+tiempo_gameover = 0
 
 function _init()
     updateFn = updateMenu
@@ -150,21 +151,21 @@ end
 
 
     function gameoverUpdate()
-        Explosion:update()
+    Explosion:update()
 
-        if btn(5) then
-            updateFn = updateGame
-            drawFn = drawGame
-            gameInit()
-        end
+    -- Esperar 2 segundos antes de permitir reiniciar
+    if time() - tiempo_gameover >= 2 and btnp(5) then
+        updateFn = updateGame
+        drawFn = drawGame
+        gameInit()
     end
+end
 
     function gameoverInit()
-
-        gameoverSfx = 10
-        music(-1)
-        music(gameoverSfx)
-
+    gameoverSfx = 10
+    music(-1)
+    music(gameoverSfx)
+    tiempo_gameover = time() 
     end
 
 

@@ -1,6 +1,6 @@
 Enemy = {}
 enemies = {}
-maxEnemies = 30
+maxEnemies = 40
 Enemy.__index = Enemy
 
 planets = {
